@@ -4,7 +4,7 @@ import SignatureUserOutput from './SignatureUserOutput';
 import SignatureUserInput from './SignatureUserInput';
 import SignaturePicker from './SignaturePicker';
 
-class Page extends React.Component {
+class UserPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -72,4 +72,4 @@ class Page extends React.Component {
   }
 }
 
-export default Page;
+export default UserPage;

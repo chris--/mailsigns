@@ -1,21 +1,28 @@
 import React, { Component } from 'react';
-import './App.css';
-import { BrowserRouter } from 'react-router-dom';
+import { BrowserRouter, Route } from 'react-router-dom';
 
-import Page from "./user/Page";
+import './App.css';
+
+import UserPage from "./user/UserPage";
+import AdminPage from './admin/AdminPage';
 import Navbar from './navigation/Navbar';
 
-class App extends Component {
+const App = (props) => (
+  <React.Fragment>
+    <Route component={Navbar} />
+    <Route exact path='/' component={UserPage}/>
+    <Route exact path='/admin' component={AdminPage}/>
+  </React.Fragment>
+);
+
+class Router extends Component {
   render() {
     return (
       <BrowserRouter>
-        <React.Fragment>
-          <Navbar />
-          <Page />
-        </React.Fragment>
+        <Route component={App} />
       </BrowserRouter>
     );
   }
 }
 
-export default App;
+export default Router;
