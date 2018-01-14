@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import ZeroClipboard from 'zeroclipboard';
 
 ZeroClipboard.config({
-  swfPath: 'assets/zeroclipboard/ZeroClipboard.swf',
+  swfPath: '/assets/zeroclipboard/ZeroClipboard.swf',
 });
 
 export default class CopyButton extends React.Component {
