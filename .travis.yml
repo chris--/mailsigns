@@ -2,15 +2,12 @@ language: node_js
 node_js:
 - '8'
 script:
-- echo “Deploying...”
 - yarn install
 - yarn test
 - yarn build
-install:
-- npm install -g firebase-tools
 deploy:
   provider: firebase
   token:
-    secure: pAKflPP4veJSIeVvLZYs9nVK15nFKGzEEZULgJ+xYgQJgLWDAxq9rp9FrNoPzVIz3PnX1ACoBZRqewy/Xrh4mM1T3u5Vn/nNO6r1hswlMvMKL88mikbmROoXjQv20H7PUVyF+6TfVLGwH1x2StSJ9V/sK1pGvL5a2Q81H/EI5z98rgEoy+oAWf0ZELwMqb2iykH$
-  project: "project-5789381722182983929"
-  message: "Deployed to firebase: https://project-5789381722182983929.firebaseapp.com/"
+    secure: cZw91wu/I7Q6M44bksYNoe15U5g9Stdr0foBCriE/scE6mIpZd/j0ZlI4ugcalD8IFdXuVZ9FJ5xzItlRkJ0oUOiBM/Km7WIldGR7dlNMe6/L7DpHtSn+uyRW96oOZEue74DYoslG9E1dSfOVdwFjV9ZmhLa1H1dli6VERPdGPeMxvujpI+TNwWaMjkCgneGuu/$
+  project: project-5789381722182983929
+  message: 'Deployed to firebase: https://project-5789381722182983929.firebaseapp.com/'
