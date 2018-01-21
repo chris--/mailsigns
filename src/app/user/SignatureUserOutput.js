@@ -2,6 +2,7 @@ import React from 'react';
 import Mustache from 'mustache';
 import PropTypes from 'prop-types';
 import Clipboard from 'clipboard-polyfill';
+import {Card, CardHeader, CardBody, Button, Form} from 'reactstrap';
 
 const MSG_TEXT_PASTE = 'You need to paste this signature directly into your mail client';
 const COPY_BUTTON_TEXT = 'Copy to Clipboard';
@@ -52,25 +53,24 @@ export default class SignatureUserOutput extends React.Component {
   };
 
   render() {
-    return (<div className="panel panel-primary">
-      <div className="panel-heading">Preview</div>
-      <div className="panel-body">
-        <form>
+    return (<Card>
+      <CardHeader>Preview</CardHeader>
+      <CardBody>
+        <Form>
           <span
             style={{ all: 'initial' }}
             id={this.props.outputTemplateId}
             dangerouslySetInnerHTML={{ __html: this.state.rawHTML }}
           />
-        </form>
+        </Form>
         <br />
-        <form>
-          <button
-            type="button"
+        <Form>
+          <Button
             className={`btn ${this.state.buttonAdditionalClassName}`}
-            onClick={this.onCopy}>{this.state.buttonText}</button>
-        </form>
-      </div>
-    </div>);
+            onClick={this.onCopy}>{this.state.buttonText}</Button>
+        </Form>
+      </CardBody>
+    </Card>);
   }
 }
 

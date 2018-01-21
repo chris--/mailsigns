@@ -1,6 +1,7 @@
 import React from 'react';
 import TextField from './TextField';
 import PropTypes from 'prop-types';
+import {Card, CardHeader, CardBody, Row, Form} from 'reactstrap';
 
 class SignatureUserInput extends React.Component {
   constructor(props) {
@@ -12,11 +13,11 @@ class SignatureUserInput extends React.Component {
   }
   render() {
     return (
-      <div className="panel panel-primary">
-        <div className="panel-heading">Please provide your contact details</div>
-        <div className="panel-body">
-          <form>
-            <div className="row">
+      <Card>
+        <CardHeader>Please provide your contact details</CardHeader>
+        <CardBody>
+          <Form>
+            <Row>
               {Object.keys(this.props.signature.variables).map(obj => (
                 <TextField
                   identifier={obj}
@@ -26,10 +27,10 @@ class SignatureUserInput extends React.Component {
                   onChange={this.onChange}
                 />
               ))}
-            </div>
-          </form>
-        </div>
-      </div>
+            </Row>
+          </Form>
+        </CardBody>
+      </Card>
     );
   }
 }

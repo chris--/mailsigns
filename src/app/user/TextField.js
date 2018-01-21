@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import {Col, FormGroup, Label, Input} from 'reactstrap';
 
 class TextField extends React.Component {
   constructor(props) {
@@ -11,18 +12,18 @@ class TextField extends React.Component {
   }
   render() {
     return (
-      <div className="col-md-6">
-        <div className="form-group">
-          <label htmlFor={`${this.props.identifier}-input`}>{this.props.description}</label>
-          <input
+      <Col md="6">
+        <FormGroup>
+          <Label htmlFor={`${this.props.identifier}-input`}>{this.props.description}</Label>
+          <Input
             className="form-control"
             type="text"
             id={`${this.props.identifier}-input`}
             defaultValue={this.props.initial}
             onChange={this.onChange}
           />
-        </div>
-      </div>
+        </FormGroup>
+      </Col>
     );
   }
 }

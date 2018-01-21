@@ -1,37 +1,28 @@
 import React from 'react';
-import { Link, withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import {Navbar, NavbarBrand, NavbarToggler, Collapse, Nav, NavItem, NavLink} from 'reactstrap';
 
-const NavBar = props => (
-  <nav className="navbar navbar-default">
-    <div className="container-fluid">
-
-      <div className="navbar-header">
-        <button
-          type="button"
-          className="navbar-toggle collapsed"
-          data-toggle="collapse" data-target="#mailsigns-navbar-collapse-1"
-          aria-expanded="false"
-        >
-          <span className="sr-only">Toggle navigation</span>
-          <span className="icon-bar" />
-          <span className="icon-bar" />
-          <span className="icon-bar" />
-        </button>
-        <Link className="navbar-brand" to="/">Mailsigns WebUI <span
-          className="label label-warning"
-        >Demo</span></Link>
-      </div>
-      <div className="collapse navbar-collapse" id="mailsigns-navbar-collapse-1">
-        <ul className="nav navbar-nav">
-          {/*<Link to="admin" activeclassname="active">Editor</Link>*/}
-        </ul>
-      </div>
-    </div>
-  </nav>
+const Menu = props => (
+  <Navbar color="inverse" light expand="md">
+      <NavbarBrand href="/">Mailsigns WebUI <span
+        className="label label-warning"
+      >Demo</span></NavbarBrand>
+      <NavbarToggler onClick={this.toggle} />
+      <Collapse isOpen={false} navbar>
+          <Nav className="ml-auto" navbar>
+              <NavItem>
+                  {/* <NavLink href="/components/">Editor</NavLink> */}
+              </NavItem>
+              <NavItem>
+                  <NavLink href="https://github.com/chris--/mailsigns">Github</NavLink>
+              </NavItem>
+          </Nav>
+      </Collapse>
+  </Navbar>
 );
-NavBar.propTypes = {
+Menu.propTypes = {
   displayName: PropTypes.string,
 };
 
-export default withRouter(NavBar);
+export default withRouter(Menu);
