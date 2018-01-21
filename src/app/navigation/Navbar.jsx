@@ -8,7 +8,7 @@ const Menu = props => (
       <NavbarBrand href="/">Mailsigns WebUI <span
         className="label label-warning"
       >Demo</span></NavbarBrand>
-      <NavbarToggler onClick={this.toggle} />
+      <NavbarToggler />
       <Collapse isOpen={false} navbar>
           <Nav className="ml-auto" navbar>
               <NavItem>
