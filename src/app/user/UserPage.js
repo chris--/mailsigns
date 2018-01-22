@@ -3,6 +3,7 @@ import firebase from '../persistence/firebase';
 import SignatureUserOutput from './SignatureUserOutput';
 import SignatureUserInput from './SignatureUserInput';
 import SignaturePicker from './SignaturePicker';
+import {Container, Row, Col} from 'reactstrap';
 
 class UserPage extends React.Component {
   constructor(props) {
@@ -47,27 +48,26 @@ class UserPage extends React.Component {
   }
   render() {
     return (
-      <div className="container">
-        <div className="row">
-          <div className="col-md-6">
+      <Container>
+        <Row>
+          <Col md="6">
             <SignatureUserInput
               onUserInput={this.onChangeContactDetails}
               signature={this.state.activeSignature}
             />
-          </div>
-          <div className="col-md-6">
+          </Col>
+          <Col md="6">
             <SignatureUserOutput
               signature={this.state.activeSignature}
             />
-          </div>
-          <div className="col-md-6">
+            <br/>
             <SignaturePicker
               onChange={this.onSetActiveSignature}
               signatures={this.state.signatures}
             />
-          </div>
-        </div>
-      </div>
+          </Col>
+        </Row>
+      </Container>
     );
   }
 }
