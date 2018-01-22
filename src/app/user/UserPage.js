@@ -60,8 +60,7 @@ class UserPage extends React.Component {
             <SignatureUserOutput
               signature={this.state.activeSignature}
             />
-          </Col>
-          <Col md="6">
+            <br/>
             <SignaturePicker
               onChange={this.onSetActiveSignature}
               signatures={this.state.signatures}
