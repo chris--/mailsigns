@@ -32,9 +32,9 @@ class SignatureService {
 
     saveSignature(signatures) {
         return new Promise((resolve, reject) => {
-            const data = new Map(signatures.map((s) => [s.uuid, {name: s.name, template: s.template, variables: s.variables}]));
-            ref.set(data);
-            resolve();
+            const data = {};
+            signatures.forEach(s => {data[s.uuid] = {name: s.name, template: s.template, variables: s.variables}})
+            return ref.set(data);
         });
     }
 }
