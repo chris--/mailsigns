@@ -14,12 +14,12 @@ class TextField extends React.Component {
     return (
       <Col md="6">
         <FormGroup>
-          <Label htmlFor={`${this.props.identifier}-input`}>{this.props.description}</Label>
+          <Label htmlFor={`${this.props.identifier}-input`}>{this.props.label}</Label>
           <Input
             className="form-control"
             type="text"
             id={`${this.props.identifier}-input`}
-            defaultValue={this.props.initial}
+            defaultValue={this.props.text}
             onChange={this.onChange}
           />
         </FormGroup>
@@ -29,8 +29,8 @@ class TextField extends React.Component {
 }
 TextField.propTypes = {
   identifier: PropTypes.string.isRequired,
-  description: PropTypes.string.isRequired,
-  initial: PropTypes.string.isRequired,
+  label: PropTypes.string.isRequired,
+  text: PropTypes.string.isRequired,
   onChange: PropTypes.func,
 };
 

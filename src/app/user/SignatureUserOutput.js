@@ -2,6 +2,7 @@ import React from 'react';
 import Mustache from 'mustache';
 import PropTypes from 'prop-types';
 import Clipboard from 'clipboard-polyfill';
+import {signature as signaturePropTypes} from '../domain/prop-types';
 import {Card, CardHeader, CardBody, Button, Form} from 'reactstrap';
 
 const MSG_TEXT_PASTE = 'You need to paste this signature directly into your mail client';
@@ -12,27 +13,26 @@ const COPY_BUTTON_TEXT_ERROR = 'Copy failed!';
 export default class SignatureUserOutput extends React.Component {
 
   constructor(props) {
-    if (props.signature && props.signature.template && props.signature.initials) {
-      // do nothing
-    }
     super(props);
     this.state = {
       rawHTML: '<p>No signature selected</p>',
       buttonAdditionalClassName: 'btn-primary',
       buttonText: COPY_BUTTON_TEXT
     };
-    this.resetState.bind(this);
+    this.resetSaveButtonState.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
+    let variables = {};
+    nextProps.signature.variables.forEach(e => {variables[e.key] = (!!e.value ? e.value : e.defaultValue)})
     this.setState({
-      rawHTML: Mustache.render(nextProps.signature.template, nextProps.signature.initials),
+      rawHTML: Mustache.render(nextProps.signature.template, variables),
     });
   }
 
-  resetState = (setAfterTimeout) => {
+  resetSaveButtonState = (setAfterTimeout) => {
     if (setAfterTimeout) {
-      setTimeout(this.resetState, setAfterTimeout);
+      setTimeout(this.resetSaveButtonState, setAfterTimeout);
     } else {
       this.setState({ buttonText: COPY_BUTTON_TEXT, buttonAdditionalClassName: 'btn-primary' });
     }
@@ -45,10 +45,10 @@ export default class SignatureUserOutput extends React.Component {
     Clipboard.write(dt)
     .then(() => {
       this.setState({ buttonText: COPY_BUTTON_TEXT_SUCCESS, buttonAdditionalClassName: 'btn-success' });
-      this.resetState(2000);
+      this.resetSaveButtonState(2000);
     }).catch(() => {
       this.setState({ buttonText: COPY_BUTTON_TEXT_ERROR, buttonAdditionalClassName: 'btn-error' });
-      this.resetState(2000);
+      this.resetSaveButtonState(2000);
     });
   };
 
@@ -67,6 +67,7 @@ export default class SignatureUserOutput extends React.Component {
         <Form className="float-right">
           <Button
             size="sm"
+            color="primary"
             className={`btn ${this.state.buttonAdditionalClassName}`}
             onClick={this.onCopy}>{this.state.buttonText}</Button>
         </Form>
@@ -76,10 +77,7 @@ export default class SignatureUserOutput extends React.Component {
 }
 
 SignatureUserOutput.propTypes = {
-  signature: PropTypes.shape({
-    template: PropTypes.string,
-    initials: PropTypes.any,
-  }).isRequired,
+  signature: PropTypes.shape(signaturePropTypes),
   outputTemplateId: PropTypes.string,
 };
 

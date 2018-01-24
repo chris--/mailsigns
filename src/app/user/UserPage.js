@@ -1,83 +1,92 @@
 import React from 'react';
-import firebase from '../persistence/firebase';
 import SignatureUserOutput from './SignatureUserOutput';
 import SignatureUserInput from './SignatureUserInput';
 import SignaturePicker from './SignaturePicker';
-import SignatureUserEditor from './Editor';
-import {Container, Row, Col, Button} from 'reactstrap';
+import SignatureService from '../domain/SignatureService';
+import Editor from './Editor';
+import {Container, Row, Col, Button, ButtonGroup} from 'reactstrap';
 
 class UserPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       editorEnabled: false,
-      activeSignature: {
-        variables: {},
-        initials: {},
-        template: '',
-      },
+      activeSignatureIdx: 0,
       signatures: [],
     };
+    this.signatureService = new SignatureService();
     this.onChangeContactDetails = this.onChangeContactDetails.bind(this);
     this.onSetActiveSignature = this.onSetActiveSignature.bind(this);
+    this.onChangeTemplate = this.onChangeTemplate.bind(this);
+    this.onSave = this.onSave.bind(this);
   }
   componentDidMount() {
-    const ref = firebase.database().ref('signatures').orderByKey();
-    ref.on('child_added', (dataSnapshot, nullOnFirst) => {
-      let signature = dataSnapshot.val()
-
-      this.setState(prevState => ({
-        signatures: [signature].concat(this.state.signatures),
-      }));
-
-      if (nullOnFirst === null) this.onSetActiveSignature({}, dataSnapshot.val());
-    });
+    this.signatureService.getSignatures().then(signatures => this.setState({signatures}));
   }
   onSetActiveSignature(evt, sig) {
     this.setState({
-      activeSignature: sig,
+      activeSignature: this.state.signatures.filter(e => e['.key'] === sig['.key'])[0],
     });
   }
   onChangeContactDetails(event, field) {
-    // update signature vars
-    const activeSignature = this.state.activeSignature;
-    activeSignature.initials[field.prop] = event.target.value;
-
-    // persist
+    const signatures = this.state.signatures;
+    const activeSignature = signatures[this.state.activeSignatureIdx];
+    let variable = activeSignature.variables.filter(v => v.key === field.prop)[0]
+    variable.value = event.target.value;
     this.setState({
-      activeSignature,
+      signatures,
     });
   }
-  onSaveTemplate(evt, template) {
-    // TODO: implement
+  onChangeTemplate(evt, template) {
+    const signatures = this.state.signatures;
+    const activeSignature = signatures[this.state.activeSignatureIdx];
+    activeSignature.template = template;
+    this.setState({
+      activeSignature
+    });
+  }
+  onSave() {
+    this.signatureService.saveSignature(this.state.signatures);
   }
   render() {
     const signatures = this.state.signatures;
-    const activeSignature = this.state.activeSignature;
-    const activeSignatureTemplate = this.state.activeSignature.template;
+    const activeSignature = this.state.signatures[this.state.activeSignatureIdx];
+    const activeSignatureTemplate = activeSignature ? activeSignature.template : undefined;
     const editorEnabled = this.state.editorEnabled;
     return (
       <Container>
         <Row className="mt-3">
           <Col md="12">
               <span className="float-right">
-                <Button 
-                  color="secondary" 
-                  active={!!this.state.editorEnabled} 
-                  size="sm"
-                  onClick={() => {this.setState({editorEnabled:!this.state.editorEnabled})}}>Show Signature Editor
-                </Button>
+                <ButtonGroup>
+                  <Button 
+                    color="primary" 
+                    active={!!this.state.editorEnabled} 
+                    size="sm"
+                    onClick={() => {this.setState({editorEnabled:!editorEnabled})}}> 
+                    {!editorEnabled ? 
+                      "Show Editor" : 
+                      "Hide Editor"}
+                  </Button>
+                  <Button 
+                    color="success" 
+                    size="sm"
+                    onClick={this.onSave}> 
+                    Save
+                  </Button>
+                </ButtonGroup>
               </span>
           </Col>
         </Row>
-        {editorEnabled ? <Row className="mt-3">
-          <Col md="12">
-            <SignatureUserEditor
-                onSave={this.onSaveTemplate}
-                template={activeSignatureTemplate}
-              />
-          </Col>
-        </Row>
+        {editorEnabled ? 
+          <Row className="mt-3">
+            <Col md="12">
+              <Editor
+                  onChangeTemplate={this.onChangeTemplate}
+                  template={activeSignatureTemplate}
+                />
+            </Col>
+          </Row>
         : ""}
         <Row className="mt-3">
           <Col md="6">

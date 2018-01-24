@@ -1,6 +1,7 @@
 import React from 'react';
 import TextField from './TextField';
 import PropTypes from 'prop-types';
+import {signature as signaturePropTypes} from '../domain/prop-types';
 import {Card, CardHeader, CardBody, Row, Form} from 'reactstrap';
 
 class SignatureUserInput extends React.Component {
@@ -12,23 +13,26 @@ class SignatureUserInput extends React.Component {
     this.props.onUserInput(event, { prop: identifier });
   }
   render() {
+    const signature = this.props.signature ? this.props.signature : {};
+    const variables = signature.variables;
     return (
       <Card>
         <CardHeader>Please provide your contact details</CardHeader>
         <CardBody>
-          <Form>
-            <Row>
-              {Object.keys(this.props.signature.variables).map(obj => (
-                <TextField
-                  identifier={obj}
-                  key={obj}
-                  description={this.props.signature.variables[obj]}
-                  initial={this.props.signature.initials[obj]}
-                  onChange={this.onChange}
-                />
-              ))}
-            </Row>
-          </Form>
+          {!!signature.variables ? 
+            <Form>
+              <Row>
+                {variables.map(obj => 
+                  <TextField
+                    key={obj.key}
+                    identifier={obj.key}
+                    label={obj.label}
+                    text={obj.value ? obj.value : obj.defaultValue}
+                    onChange={this.onChange}
+                  />
+                )}
+              </Row>
+            </Form> : ""}
         </CardBody>
       </Card>
     );
@@ -36,10 +40,7 @@ class SignatureUserInput extends React.Component {
 }
 SignatureUserInput.propTypes = {
   onUserInput: PropTypes.func.isRequired,
-  signature: PropTypes.shape({
-    variables: PropTypes.objectOf(PropTypes.string),
-    initials: PropTypes.objectOf(PropTypes.string),
-  }).isRequired,
+  signature: PropTypes.shape(signaturePropTypes),
 };
 
 export default SignatureUserInput;

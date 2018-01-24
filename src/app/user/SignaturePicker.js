@@ -1,5 +1,6 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import PT from 'prop-types';
+import {signature} from '../domain/prop-types';
 import {Card, CardHeader, CardBody, Row, Col} from 'reactstrap';
 
 const SignaturePicker = props => (
@@ -21,7 +22,7 @@ const SignaturePicker = props => (
   </Card>
 );
 SignaturePicker.propTypes = {
-  signatures: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+  signatures: PT.arrayOf(PT.shape(signature))
 };
 
 export default SignaturePicker;
