@@ -1,12 +1,10 @@
 import React from 'react';
-import firebase from '../persistence/firebase';
-import {signature as signaturePropType} from '../domain/prop-types';
 import SignatureUserOutput from './SignatureUserOutput';
 import SignatureUserInput from './SignatureUserInput';
 import SignaturePicker from './SignaturePicker';
+import SignatureService from '../domain/SignatureService';
 import Editor from './Editor';
-import PropTypes from "prop-types";
-import {Container, Row, Col, Button} from 'reactstrap';
+import {Container, Row, Col, Button, ButtonGroup} from 'reactstrap';
 
 class UserPage extends React.Component {
   constructor(props) {
@@ -16,22 +14,14 @@ class UserPage extends React.Component {
       activeSignatureIdx: 0,
       signatures: [],
     };
+    this.signatureService = new SignatureService();
     this.onChangeContactDetails = this.onChangeContactDetails.bind(this);
     this.onSetActiveSignature = this.onSetActiveSignature.bind(this);
     this.onChangeTemplate = this.onChangeTemplate.bind(this);
+    this.onSave = this.onSave.bind(this);
   }
   componentDidMount() {
-    const ref = firebase.database().ref('signatures').orderByKey();
-    ref.on('child_added', (dataSnapshot, nullOnFirst) => {
-      const signature = dataSnapshot.val();
-      PropTypes.checkPropTypes(signaturePropType, signature, 'prop', 'Signature');
-
-      this.setState(prevState => ({
-        signatures: [signature].concat(this.state.signatures),
-      }));
-
-      if (nullOnFirst === null) this.onSetActiveSignature({}, dataSnapshot.val());
-    });
+    this.signatureService.getSignatures().then(signatures => this.setState({signatures}));
   }
   onSetActiveSignature(evt, sig) {
     this.setState({
@@ -54,7 +44,9 @@ class UserPage extends React.Component {
     this.setState({
       activeSignature
     });
-    // @todo: do a firebase push here
+  }
+  onSave() {
+    this.signatureService.saveSignature(this.state.signatures);
   }
   render() {
     const signatures = this.state.signatures;
@@ -66,15 +58,23 @@ class UserPage extends React.Component {
         <Row className="mt-3">
           <Col md="12">
               <span className="float-right">
-                <Button 
-                  color="secondary" 
-                  active={!!this.state.editorEnabled} 
-                  size="sm"
-                  onClick={() => {this.setState({editorEnabled:!editorEnabled})}}> 
-                  {!editorEnabled ? 
-                    "Show Signature Editor" : 
-                    "Hide Signature Editor"}
-                </Button>
+                <ButtonGroup>
+                  <Button 
+                    color="primary" 
+                    active={!!this.state.editorEnabled} 
+                    size="sm"
+                    onClick={() => {this.setState({editorEnabled:!editorEnabled})}}> 
+                    {!editorEnabled ? 
+                      "Show Editor" : 
+                      "Hide Editor"}
+                  </Button>
+                  <Button 
+                    color="success" 
+                    size="sm"
+                    onClick={this.onSave}> 
+                    Save
+                  </Button>
+                </ButtonGroup>
               </span>
           </Col>
         </Row>
