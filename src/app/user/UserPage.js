@@ -3,12 +3,14 @@ import firebase from '../persistence/firebase';
 import SignatureUserOutput from './SignatureUserOutput';
 import SignatureUserInput from './SignatureUserInput';
 import SignaturePicker from './SignaturePicker';
-import {Container, Row, Col} from 'reactstrap';
+import SignatureUserEditor from './Editor';
+import {Container, Row, Col, Button} from 'reactstrap';
 
 class UserPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      editorEnabled: false,
       activeSignature: {
         variables: {},
         initials: {},
@@ -46,24 +48,52 @@ class UserPage extends React.Component {
       activeSignature,
     });
   }
+  onSaveTemplate(evt, template) {
+    // TODO: implement
+  }
   render() {
+    const signatures = this.state.signatures;
+    const activeSignature = this.state.activeSignature;
+    const activeSignatureTemplate = this.state.activeSignature.template;
+    const editorEnabled = this.state.editorEnabled;
     return (
       <Container>
-        <Row>
+        <Row className="mt-3">
+          <Col md="12">
+              <span className="float-right">
+                <Button 
+                  color="secondary" 
+                  active={!!this.state.editorEnabled} 
+                  size="sm"
+                  onClick={() => {this.setState({editorEnabled:!this.state.editorEnabled})}}>Show Signature Editor
+                </Button>
+              </span>
+          </Col>
+        </Row>
+        {editorEnabled ? <Row className="mt-3">
+          <Col md="12">
+            <SignatureUserEditor
+                onSave={this.onSaveTemplate}
+                template={activeSignatureTemplate}
+              />
+          </Col>
+        </Row>
+        : ""}
+        <Row className="mt-3">
           <Col md="6">
             <SignatureUserInput
               onUserInput={this.onChangeContactDetails}
-              signature={this.state.activeSignature}
+              signature={activeSignature}
             />
           </Col>
           <Col md="6">
             <SignatureUserOutput
-              signature={this.state.activeSignature}
+              signature={activeSignature}
             />
             <br/>
             <SignaturePicker
               onChange={this.onSetActiveSignature}
-              signatures={this.state.signatures}
+              signatures={signatures}
             />
           </Col>
         </Row>
