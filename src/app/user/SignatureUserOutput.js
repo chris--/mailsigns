@@ -64,8 +64,9 @@ export default class SignatureUserOutput extends React.Component {
           />
         </Form>
         <br />
-        <Form>
+        <Form className="float-right">
           <Button
+            size="sm"
             className={`btn ${this.state.buttonAdditionalClassName}`}
             onClick={this.onCopy}>{this.state.buttonText}</Button>
         </Form>
