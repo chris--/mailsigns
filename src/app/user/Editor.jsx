@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Card, CardBody, Button } from 'reactstrap';
+import { Card, CardBody } from 'reactstrap';
 import CKEditor from 'react-ckeditor-wrapper';
 
 class Editor extends React.Component {
@@ -9,11 +9,9 @@ class Editor extends React.Component {
     this.state = {
       editorData: props.template
     }
-    this.onSave = this.onSave.bind(this);
     this.onChange = this.onChange.bind(this);
   }
   componentWillReceiveProps(nextProps) {
-    console.log("editor receive props", nextProps);
     this.setState({
       editorData: nextProps.template
     });
@@ -22,9 +20,7 @@ class Editor extends React.Component {
     this.setState({
       editorData: evt,
     });
-  }
-  onSave() {
-    this.props.onSave({}, this.state.editorData);
+    this.props.onChangeTemplate({}, this.state.editorData);
   }
   render() {
     return (
@@ -33,19 +29,13 @@ class Editor extends React.Component {
           <CKEditor 
               value={this.state.editorData}
               onChange={this.onChange.bind(this)} />
-            <br />
-            <Button 
-              color="secondary" 
-              size="sm"
-              onClick={this.onSave}>Save it
-            </Button>
         </CardBody>
       </Card>
     );
   }
 }
 Editor.propTypes = {
-  onSave: PropTypes.func.isRequired,
+  onChangeTemplate: PropTypes.func.isRequired,
   templateEditorId: PropTypes.string,
   template: PropTypes.string,
 };
