@@ -18,7 +18,7 @@
     "bootstrap": "^4.0.0",
     "clipboard-polyfill": "^2.4.1",
     "eslint": "^4.15.0",
-    "firebase": "^4.8.2",
+    "firebase": "^5.0.2",
     "jquery": "^3.2.1",
     "mustache": "^2.3.0",
     "prop-types": "^15.6.0",
