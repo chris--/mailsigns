@@ -10,7 +10,7 @@
     "@types/firebase": "^3.2.1",
     "@types/jquery": "^3.2.17",
     "@types/mustache": "^0.8.30",
-    "@types/prop-types": "^15.5.2",
+    "@types/prop-types": "^15.5.9",
     "@types/react": "^16.0.34",
     "@types/react-dom": "^16.0.3",
     "@types/react-router-dom": "^4.2.3",
