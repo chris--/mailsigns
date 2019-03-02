@@ -17,7 +17,7 @@
     "@types/zeroclipboard": "^2.0.31",
     "bootstrap": "^4.0.0",
     "clipboard-polyfill": "^2.4.1",
-    "eslint": "^4.15.0",
+    "eslint": "^5.15.0",
     "firebase": "^4.8.2",
     "jquery": "^3.2.1",
     "mustache": "^2.3.0",
