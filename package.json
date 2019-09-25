@@ -13,7 +13,7 @@
     "@types/prop-types": "^15.5.2",
     "@types/react": "^16.0.34",
     "@types/react-dom": "^16.0.3",
-    "@types/react-router-dom": "^4.2.3",
+    "@types/react-router-dom": "^5.1.0",
     "@types/zeroclipboard": "^2.0.31",
     "bootstrap": "^4.0.0",
     "clipboard-polyfill": "^2.4.1",
