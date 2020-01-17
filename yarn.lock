@@ -102,9 +102,10 @@
   version "3.3.0"
   resolved "https://registry.yarnpkg.com/@types/jquery/-/jquery-3.3.0.tgz#6316ac20a1a13c5d521a2dc661befc7184f73f5b"
 
-"@types/mustache@^0.8.30":
-  version "0.8.30"
-  resolved "https://registry.yarnpkg.com/@types/mustache/-/mustache-0.8.30.tgz#65e479073bc15e8ac834347f8f311b24220a277d"
+"@types/mustache@^4.0.0":
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/@types/mustache/-/mustache-4.0.0.tgz#8db01fdff5210646a9d8819ad2aca0ccb5fef12a"
+  integrity sha512-AVBOcLJenbpCIJcHUvGWj+YMlaiwcFlGK1YEH2mePXkB5B/vQLrFkHG9IpBH71mXnkbibc4V8Nnn1wJSxcgCEA==
 
 "@types/node@*":
   version "9.3.0"
