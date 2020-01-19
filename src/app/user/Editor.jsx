@@ -8,7 +8,7 @@ class Editor extends React.Component {
     super(props);
     this.state = {
       editorData: props.template
-    }
+    };
     this.onChange = this.onChange.bind(this);
   }
   componentWillReceiveProps(nextProps) {

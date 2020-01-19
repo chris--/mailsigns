@@ -1,7 +1,7 @@
 import React from 'react';
 import Mustache from 'mustache';
 import PropTypes from 'prop-types';
-import Clipboard from 'clipboard-polyfill';
+import * as Clipboard from "clipboard-polyfill"
 import {signature as signaturePropTypes} from '../domain/prop-types';
 import {Card, CardHeader, CardBody, Button, Form} from 'reactstrap';
 
@@ -22,9 +22,9 @@ export default class SignatureUserOutput extends React.Component {
     this.resetSaveButtonState.bind(this);
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps, nextContent) {
     let variables = {};
-    nextProps.signature.variables.forEach(e => {variables[e.key] = (!!e.value ? e.value : e.defaultValue)})
+    nextProps.signature.variables.forEach(e => {variables[e.key] = (!!e.value ? e.value : e.defaultValue)});
     this.setState({
       rawHTML: Mustache.render(nextProps.signature.template, variables),
     });
@@ -36,10 +36,10 @@ export default class SignatureUserOutput extends React.Component {
     } else {
       this.setState({ buttonText: COPY_BUTTON_TEXT, buttonAdditionalClassName: 'btn-primary' });
     }
-  }
+  };
 
   onCopy = (e) => {
-    var dt = new Clipboard.DT();
+    const dt = new Clipboard.DT();
     dt.setData("text/plain", MSG_TEXT_PASTE);
     dt.setData("text/html", this.state.rawHTML);
     Clipboard.write(dt)
